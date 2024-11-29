@@ -1,0 +1,23 @@
+stages:
+  - build
+  - deploy
+
+# Job de Build
+build-job:
+  stage: build
+  image: node:16  # Utilisation de l'image Docker Node.js pour l'environnement
+  script:
+    - npm install  # Installer les dépendances
+    - npm run build  # Construire le site Docusaurus
+  artifacts:
+    paths:
+      - build/  # Sauvegarde des fichiers générés par le build
+
+# Job de Déploiement sur GitLab Pages
+pages:
+  stage: deploy
+  script:
+    - mv build/ public/  # Déplace les fichiers construits dans le dossier public
+  artifacts:
+    paths:
+      - public/  # Déploie le contenu dans le répertoire public
